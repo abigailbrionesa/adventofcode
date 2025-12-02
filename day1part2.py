@@ -16,7 +16,7 @@ def dial(inputs):
     return password
 
 def main():
-    with open("puzzleinputexample.txt") as f:
+    with open("puzzleinput.txt") as f:
         instructions = [line.strip() for line in f if line.strip()]
     password = dial(instructions)
     print("password (part 2):", password)
