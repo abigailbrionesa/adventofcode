@@ -31,7 +31,7 @@ def total_output(inputs):
     return total
 
 def main():
-    with open("input3example.txt") as f:
+    with open("input3.txt") as f:
         lines = f.readlines()
     total = total_output(lines)
     print('result:', total)
