@@ -26,7 +26,7 @@ def forklift_count(matrix):
     return count
         
 def main():
-    with open("input4example.txt") as f:
+    with open("input4.txt") as f:
         lines = f.read().splitlines()
     matrix = [list(line) for line in lines]
     print('count:', forklift_count(matrix))
