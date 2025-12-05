@@ -14,11 +14,15 @@ def main():
     lst1 = lst1.splitlines()
     lst2 = lst2.splitlines()
     fresh_ranges = create_fresh_lst(lst1)
-    fresh_set = set()
+    fresh_ranges.sort()
+    new = []
     for l,r in fresh_ranges:
-        for i in range(l,r+1):
-            fresh_set.add(i)
-    print(len(fresh_set))
+        if not new or l > new[-1][1] + 1:
+            new.append([l,r])
+        else:
+            new[-1][1] = max(new[-1][1],r)
+    count = sum(r-1+1 for l,r in new)
+    print('count:', count)
 
 if __name__ == "__main__":
     main()
