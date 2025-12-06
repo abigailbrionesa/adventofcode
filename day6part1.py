@@ -1,43 +1,52 @@
-#trash compactor
 def main():
-    with open("input6example.txt") as f:
-        content = f.read()
-    grid = [list(line) for line in content.splitlines()]
-    h = len(grid)
-    w = len(grid[0])
-    operators = []
-    
-    for k in grid[-1]:
-        if k =='+' or k=='*':
-         operators.append(k)
-        
-    print(operators)
-    
-    cursor = w-1
-    results = []
-    
-    while cursor >= 0:
-        operator = operators.pop()
-        for _ in range(3):
-            curr = ''
-            if operator == '*':
-                result = 1
-            elif operator == '+':
-                result = 0
-            for j in range(h-1):
-                curr += grid[j][cursor]
-            cursor -= 1
-            if operator == '*':
-                result *= int(curr) 
-            elif operator == '+':
-                result += int(curr)
-            print('complete')
-        results.append(result)
-        print('__')
-        cursor -= 1
-    print(results)
-              
-            
-            
+    with open("input6.txt") as f:
+        lines = f.read().splitlines()
+
+    w = max(len(l) for l in lines)
+    h = len(lines)
+    g = [list(l.ljust(w)) for l in lines]
+
+    ops = [c for c in g[-1] if c in '+*']
+    res = []
+    cur = w - 1
+
+    while cur >= 0:
+        if all(g[r][cur] == ' ' for r in range(h)):
+            cur -= 1
+            continue
+
+        if not ops:
+            break
+        op = ops.pop()
+
+        nums = []
+
+        while cur >= 0:
+            if all(g[r][cur] == ' ' for r in range(h-1)) and nums:
+                break
+
+            col = [g[r][cur] for r in range(h-1)]
+            if any(c != ' ' for c in col):
+                nstr = ''.join(col).strip()
+                if nstr:
+                    try:
+                        nums.append(int(nstr))
+                    except ValueError:
+                        pass
+
+            cur -= 1
+
+        if op == '+':
+            r = sum(nums)
+        else:
+            r = 1
+            for n in nums:
+                r *= n
+
+        res.append(r)
+
+    print("total:", sum(res))
+
+
 if __name__ == "__main__":
     main()
