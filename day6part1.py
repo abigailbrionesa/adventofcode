@@ -1,52 +1,20 @@
 def main():
-    with open("input6.txt") as f:
-        lines = f.read().splitlines()
-
-    w = max(len(l) for l in lines)
-    h = len(lines)
-    g = [list(l.ljust(w)) for l in lines]
-
-    ops = [c for c in g[-1] if c in '+*']
-    res = []
-    cur = w - 1
-
-    while cur >= 0:
-        if all(g[r][cur] == ' ' for r in range(h)):
-            cur -= 1
-            continue
-
-        if not ops:
-            break
-        op = ops.pop()
-
-        nums = []
-
-        while cur >= 0:
-            if all(g[r][cur] == ' ' for r in range(h-1)) and nums:
-                break
-
-            col = [g[r][cur] for r in range(h-1)]
-            if any(c != ' ' for c in col):
-                nstr = ''.join(col).strip()
-                if nstr:
-                    try:
-                        nums.append(int(nstr))
-                    except ValueError:
-                        pass
-
-            cur -= 1
-
-        if op == '+':
-            r = sum(nums)
-        else:
-            r = 1
-            for n in nums:
-                r *= n
-
-        res.append(r)
-
-    print("total:", sum(res))
-
-
+    with open("input6example.txt") as f:
+        content = f.read()
+    rows = [line.split() for line in content.splitlines()]
+    results = []
+    for i in range(len(rows[0])):
+        operation = rows[len(rows) - 1][i]
+        if operation == '*':
+            result = 1
+            for j in range(len(rows)-1):
+                result *= int(rows[j][i])
+        elif operation == '+':
+            result = 0
+            for j in range(len(rows)-1):
+                result += int(rows[j][i])
+        results.append(result)
+    print('sum:',sum(results)) 
+            
 if __name__ == "__main__":
     main()
