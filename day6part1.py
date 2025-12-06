@@ -1,6 +1,6 @@
 #trash compactor
 def main():
-    with open("input6example.txt") as f:
+    with open("input6.txt") as f:
         content = f.read().strip()
     rows = [line.split() for line in content.splitlines()]
     results = []
@@ -14,7 +14,8 @@ def main():
             result = 0
             for j in range(len(rows)-1):
                 result += int(rows[j][i])
-        print(result)
+        results.append(result)
+    print('sum:',sum(results)) 
             
 if __name__ == "__main__":
     main()
