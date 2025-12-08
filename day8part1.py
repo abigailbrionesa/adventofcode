@@ -41,7 +41,7 @@ def main():
     for dist, i, j in edges:
         union(i, j, size, parent)
         count += 1
-        if count == max_connections:
+        if len(circuit_count) == 1:
             break
         for i in range(n):
             find(i, parent)
