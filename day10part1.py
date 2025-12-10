@@ -1,8 +1,38 @@
 #factory
 
 #bit method
+def fewest_presses_bits(options,goal):
+    n = len(goal)
+    goal_mask = 0
+    for i,c in enumerate(goal):
+        if c == '#':
+            goal_mask |= 1 << i
+    masks = []
+    for btn in options:
+        mask = 0
+        for i in btn:
+            mask |= 1 << i
+        masks.append(mask) #list of bitmasks
+    m = len(masks)
+    
+    def dfs(idx, pattern, presses,best):
+        if best is not None and presses >= best:
+            return best
+        if idx == m:
+            if pattern == goal_mask:
+                if best is None or presses < best:
+                    return presses
+            return best
+        
+        best = dfs(idx+1, pattern, presses, best)
+        best = dfs(idx + 1, pattern ^ masks[idx], presses + 1, best)
+        return best
 
-
+    best = dfs(0,0,0,None)
+    return best
+    
+    #explores all combinations of button presses
+    
 #gaussian method (We could use bits?)
 def fewest_presses(options,goal):
     n = len(goal)
@@ -79,9 +109,13 @@ def main():
 
     parsed = [parse_line(line) for line in content]
     total = 0
+    total_bit = 0
     for goal, options in parsed:
         presses = fewest_presses(options, goal)
+        presses_bit = fewest_presses_bits(options, goal)
+        total_bit += presses_bit
         total += presses
     print(total)
+    print(total_bit)
 
 main()
